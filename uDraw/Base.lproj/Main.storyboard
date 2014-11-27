@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="first" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="uDraw" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +15,113 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E2N-9t-Fcn">
+                                <rect key="frame" x="369" y="285" width="44" height="30"/>
+                                <state key="normal" title="Online">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onlineButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4g7-M3-8sE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJd-5o-9p8">
+                                <rect key="frame" x="185" y="285" width="50" height="30"/>
+                                <state key="normal" title="Nearby">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nearbyButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GDJ-Jg-JQ8"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="E2N-9t-Fcn" secondAttribute="centerY" id="M5J-sz-Ujw"/>
+                            <constraint firstAttribute="centerX" secondItem="E2N-9t-Fcn" secondAttribute="centerX" constant="-91" id="QCr-ys-HkP"/>
+                            <constraint firstAttribute="centerY" secondItem="nJd-5o-9p8" secondAttribute="centerY" id="VaV-5u-riO"/>
+                            <constraint firstAttribute="centerX" secondItem="nJd-5o-9p8" secondAttribute="centerX" constant="90" id="yxe-X6-voe"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <segue destination="Tj0-Bf-E5p" kind="presentation" identifier="NearbyDraw" id="bRK-oj-6Hz"/>
+                        <segue destination="Vnz-BM-WlM" kind="presentation" identifier="startGuess" id="uaB-wD-49y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Guess View Controller-->
+        <scene sceneID="g5v-94-pMg">
+            <objects>
+                <viewController id="Vnz-BM-WlM" customClass="GuessViewController" customModule="uDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1hH-gF-YfL"/>
+                        <viewControllerLayoutGuide type="bottom" id="0dU-jO-45S"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dHU-YD-5aW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aAR-0o-v0O">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aAR-0o-v0O" firstAttribute="bottom" secondItem="0dU-jO-45S" secondAttribute="top" id="9o8-3j-WlI"/>
+                            <constraint firstItem="aAR-0o-v0O" firstAttribute="leading" secondItem="dHU-YD-5aW" secondAttribute="leading" id="C2z-9J-eT2"/>
+                            <constraint firstItem="aAR-0o-v0O" firstAttribute="top" secondItem="dHU-YD-5aW" secondAttribute="top" id="fcN-Gn-lxy"/>
+                            <constraint firstAttribute="trailing" secondItem="aAR-0o-v0O" secondAttribute="trailing" id="tqj-Ki-OHs"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="drawingImage" destination="aAR-0o-v0O" id="ozz-oO-c4a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OET-QE-jKu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="858" y="675"/>
+        </scene>
+        <!--Drawing View Controller-->
+        <scene sceneID="XNX-FI-Zk8">
+            <objects>
+                <viewController id="Tj0-Bf-E5p" customClass="DrawingViewController" customModule="uDraw" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fwn-3H-Fpr"/>
+                        <viewControllerLayoutGuide type="bottom" id="h6U-PM-LLF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OBx-rq-9bV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="95L-hq-Bvy" userLabel="mainImage">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WOV-Ut-Rxb" userLabel="tempDrawImage">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="WOV-Ut-Rxb" secondAttribute="trailing" id="4bT-1C-tJj"/>
+                            <constraint firstItem="WOV-Ut-Rxb" firstAttribute="trailing" secondItem="95L-hq-Bvy" secondAttribute="trailing" id="8dE-3m-G5H"/>
+                            <constraint firstItem="95L-hq-Bvy" firstAttribute="leading" secondItem="OBx-rq-9bV" secondAttribute="leading" id="bGc-ST-l9C"/>
+                            <constraint firstItem="WOV-Ut-Rxb" firstAttribute="bottom" secondItem="h6U-PM-LLF" secondAttribute="top" id="hCI-OQ-iP4"/>
+                            <constraint firstItem="WOV-Ut-Rxb" firstAttribute="leading" secondItem="95L-hq-Bvy" secondAttribute="leading" id="ngN-sr-9Bl"/>
+                            <constraint firstItem="95L-hq-Bvy" firstAttribute="top" secondItem="OBx-rq-9bV" secondAttribute="top" id="pFk-vj-k07"/>
+                            <constraint firstItem="95L-hq-Bvy" firstAttribute="bottom" secondItem="h6U-PM-LLF" secondAttribute="top" id="tRG-2l-Xbx"/>
+                            <constraint firstItem="WOV-Ut-Rxb" firstAttribute="top" secondItem="95L-hq-Bvy" secondAttribute="top" id="yGL-xk-toJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mainImage" destination="95L-hq-Bvy" id="Glp-SY-4Ch"/>
+                        <outlet property="tempDrawImage" destination="WOV-Ut-Rxb" id="tqo-jA-bDV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VeA-TE-hKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1057" y="-23"/>
         </scene>
     </scenes>
 </document>

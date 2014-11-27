@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9151C271A18752400857356 /* DrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9151C261A18752400857356 /* DrawingViewController.swift */; };
 		A99075241A18211800F245AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99075231A18211800F245AC /* AppDelegate.swift */; };
 		A99075261A18211800F245AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99075251A18211800F245AC /* ViewController.swift */; };
 		A99075291A18211800F245AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A99075271A18211800F245AC /* Main.storyboard */; };
 		A990752B1A18211800F245AC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A990752A1A18211800F245AC /* Images.xcassets */; };
 		A990752E1A18211800F245AC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A990752C1A18211800F245AC /* LaunchScreen.xib */; };
 		A990753A1A18211800F245AC /* uDrawTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99075391A18211800F245AC /* uDrawTests.swift */; };
+		A99075441A183CBD00F245AC /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99075431A183CBD00F245AC /* MultipeerConnectivity.framework */; };
+		A99075461A18410400F245AC /* MCManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99075451A18410400F245AC /* MCManager.swift */; };
+		A9C08BF71A193CCE00D51447 /* GuessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C08BF61A193CCE00D51447 /* GuessViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A9151C261A18752400857356 /* DrawingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingViewController.swift; sourceTree = "<group>"; };
 		A990751E1A18211800F245AC /* uDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A99075221A18211800F245AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A99075231A18211800F245AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +41,9 @@
 		A99075331A18211800F245AC /* uDrawTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uDrawTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A99075381A18211800F245AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A99075391A18211800F245AC /* uDrawTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uDrawTests.swift; sourceTree = "<group>"; };
+		A99075431A183CBD00F245AC /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		A99075451A18410400F245AC /* MCManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCManager.swift; sourceTree = "<group>"; };
+		A9C08BF61A193CCE00D51447 /* GuessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuessViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A99075441A183CBD00F245AC /* MultipeerConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +68,7 @@
 		A99075151A18211800F245AC = {
 			isa = PBXGroup;
 			children = (
+				A99075431A183CBD00F245AC /* MultipeerConnectivity.framework */,
 				A99075201A18211800F245AC /* uDraw */,
 				A99075361A18211800F245AC /* uDrawTests */,
 				A990751F1A18211800F245AC /* Products */,
@@ -79,6 +89,9 @@
 			children = (
 				A99075231A18211800F245AC /* AppDelegate.swift */,
 				A99075251A18211800F245AC /* ViewController.swift */,
+				A9151C261A18752400857356 /* DrawingViewController.swift */,
+				A9C08BF61A193CCE00D51447 /* GuessViewController.swift */,
+				A99075451A18410400F245AC /* MCManager.swift */,
 				A99075271A18211800F245AC /* Main.storyboard */,
 				A990752A1A18211800F245AC /* Images.xcassets */,
 				A990752C1A18211800F245AC /* LaunchScreen.xib */,
@@ -213,7 +226,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A99075261A18211800F245AC /* ViewController.swift in Sources */,
+				A9C08BF71A193CCE00D51447 /* GuessViewController.swift in Sources */,
+				A9151C271A18752400857356 /* DrawingViewController.swift in Sources */,
 				A99075241A18211800F245AC /* AppDelegate.swift in Sources */,
+				A99075461A18410400F245AC /* MCManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +288,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -315,7 +332,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -341,6 +359,7 @@
 				INFOPLIST_FILE = uDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -351,6 +370,7 @@
 				INFOPLIST_FILE = uDraw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -407,6 +427,7 @@
 				A990753F1A18211800F245AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A99075401A18211800F245AC /* Build configuration list for PBXNativeTarget "uDrawTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +436,7 @@
 				A99075421A18211800F245AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
