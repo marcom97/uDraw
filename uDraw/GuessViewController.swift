@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDelegate {
     
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var textField : UITextField?
     var received = 0
     var word : NSString?
@@ -45,7 +45,7 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         textField?.resignFirstResponder()
     }
 
@@ -57,21 +57,21 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
     
     func peerDidChangeStateWithNotification(notification: NSNotification)
     {
-        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as NSNumber)) as MCSessionState!
+        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as! NSNumber)) as MCSessionState!
         
         if (state != MCSessionState.Connecting)
         {
             if (state == MCSessionState.NotConnected)
             {
-                let viewController: UIViewController = storyboard?.instantiateViewControllerWithIdentifier("first") as UIViewController
-                presentViewController(viewController, animated: true, completion: nil)
+                let viewController: UIViewController? = storyboard?.instantiateViewControllerWithIdentifier("first") as UIViewController?
+                presentViewController(viewController!, animated: true, completion: nil)
             }
             
         }
     }
     
-    func session(session: MCSession!, didReceiveData data: NSData!,
-        fromPeer peerID: MCPeerID!)  {
+    func session(session: MCSession, didReceiveData data: NSData,
+        fromPeer peerID: MCPeerID)  {
             // Called when a peer sends an NSData to us
             if (received == 0)
             {
@@ -84,7 +84,7 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
             dispatch_async(dispatch_get_main_queue())
                 {
                 
-                var msg = UIImage(data: data)
+                let msg = UIImage(data: data)
                 self.drawingImage.image = msg
                 
                 }
@@ -95,31 +95,32 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
     {
         if (textField?.text != "")
         {
-        var guess = textField?.text
-        if (guess?.caseInsensitiveCompare(word!) == NSComparisonResult.OrderedSame)
+        let guess = textField?.text
+        if (guess?.caseInsensitiveCompare(word! as String) == NSComparisonResult.OrderedSame)
             {
                 label?.text = "Correct"
             }
             
-            else if(levenshtein(guess!, bStr: word!) < 2)
+            else if(levenshtein(guess!, bStr: word! as String) < 2)
             {
                 label?.text = "Correct"
             }
             
-            else if (levenshtein(guess!, bStr: word!) < 3)
+            else if (levenshtein(guess!, bStr: word! as String) < 3)
             {
                 label?.text = "Close Guess"
             }
         }
     }
+    
     func levenshtein(aStr: String, bStr: String) -> Int {
         // create character arrays
-        let a = Array(aStr)
-        let b = Array(bStr)
+        let a = Array(aStr.characters)
+        let b = Array(bStr.characters)
         
         // initialize matrix of size |a|+1 * |b|+1 to zero
         var dist = [[Int]]()
-        for row in 0...a.count {
+        for _ in 0...a.count {
             dist.append([Int](count: b.count + 1, repeatedValue: 0))
         }
         
@@ -138,10 +139,14 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
                 if a[i-1] == b[j-1] {
                     dist[i][j] = dist[i-1][j-1]  // noop
                 } else {
+                    let deletion = dist[i-1][j] + 1
+                    let insertion = dist[i][j-1] + 1
+                    let substitution = dist[i-1][j-1] + 1
+                    
                     dist[i][j] = min(
-                        dist[i-1][j] + 1,  // deletion
-                        dist[i][j-1] + 1,  // insertion
-                        dist[i-1][j-1] + 1  // substitution
+                        deletion,  // deletion
+                        insertion,  // insertion
+                        substitution  // substitution
                     )
                 }
             }
@@ -150,26 +155,26 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         return dist[a.count][b.count]
     }
     
-    func session(session: MCSession!,
-        didStartReceivingResourceWithName resourceName: String!,
-        fromPeer peerID: MCPeerID!, withProgress progress: NSProgress!)  {
+    func session(session: MCSession,
+        didStartReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, withProgress progress: NSProgress)  {
             
             // Called when a peer starts sending a file to us
     }
     
-    func session(session: MCSession!,
-        didFinishReceivingResourceWithName resourceName: String!,
-        fromPeer peerID: MCPeerID!,
-        atURL localURL: NSURL!, withError error: NSError!)  {
+    func session(session: MCSession,
+        didFinishReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID,
+        atURL localURL: NSURL, withError error: NSError?)  {
             // Called when a file has finished transferring from another peer
     }
     
-    func session(session: MCSession!, didReceiveStream stream: NSInputStream!,
-        withName streamName: String!, fromPeer peerID: MCPeerID!)  {
+    func session(session: MCSession, didReceiveStream stream: NSInputStream,
+        withName streamName: String, fromPeer peerID: MCPeerID)  {
             // Called when a peer establishes a stream with us
     }
     
-    func session(session: MCSession!, peer peerID: MCPeerID!,
+    func session(session: MCSession, peer peerID: MCPeerID,
         didChangeState state: MCSessionState)  {
             // Called when a connected peer changes state (for example, goes offline)
             

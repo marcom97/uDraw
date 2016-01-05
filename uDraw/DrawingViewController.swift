@@ -13,7 +13,7 @@ class DrawingViewController: UIViewController  {
     @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var tempDrawImage: UIImageView!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
     
     var lastPoint = CGPoint()
@@ -22,7 +22,7 @@ class DrawingViewController: UIViewController  {
     //CGFloat blue;
     //CGFloat brush;
     //CGFloat opacity;
-    var mouseSwiped = Bool()
+    var touchSwiped = Bool()
 
     override func viewDidLoad()
     {
@@ -30,26 +30,26 @@ class DrawingViewController: UIViewController  {
         getWord()
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        mouseSwiped = false
-        var touch: UITouch = touches.anyObject() as UITouch
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        touchSwiped = false
+        let touch: UITouch = touches.first!
         lastPoint = touch.locationInView(self.view)
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        mouseSwiped = true
-        var touch: UITouch = touches.anyObject() as UITouch
-        var currentPoint = touch.locationInView(self.view)
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        touchSwiped = true
+        let touch: UITouch = touches.first!
+        let currentPoint = touch.locationInView(self.view)
         
         UIGraphicsBeginImageContext(self.view.frame.size)
         self.tempDrawImage.image?.drawInRect(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
         
         CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y)
         CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y)
-        CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound)
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
         CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 10 )
         CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0, 0, 0, 1.0)
-        CGContextSetBlendMode(UIGraphicsGetCurrentContext(),kCGBlendModeNormal)
+        CGContextSetBlendMode(UIGraphicsGetCurrentContext(),CGBlendMode.Normal)
         
         CGContextStrokePath(UIGraphicsGetCurrentContext())
         self.tempDrawImage.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -59,8 +59,8 @@ class DrawingViewController: UIViewController  {
         lastPoint = currentPoint
         
         UIGraphicsBeginImageContext(self.mainImage.frame.size)
-        self.mainImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: kCGBlendModeNormal, alpha: 1.0)
-        self.tempDrawImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: kCGBlendModeNormal, alpha: 1.0)
+        self.mainImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: CGBlendMode.Normal, alpha: 1.0)
+        self.tempDrawImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: CGBlendMode.Normal, alpha: 1.0)
         
         self.mainImage.image = UIGraphicsGetImageFromCurrentImageContext()
         self.tempDrawImage.image = nil
@@ -69,12 +69,12 @@ class DrawingViewController: UIViewController  {
         sendImage(mainImage.image!)
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        if(!mouseSwiped) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if(!touchSwiped) {
             UIGraphicsBeginImageContext(self.view.frame.size)
             self.tempDrawImage.image?.drawInRect(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
             
-            CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound)
+            CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
             CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 10)
             CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), 0, 0, 0, 1.0)
             CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y)
@@ -86,8 +86,8 @@ class DrawingViewController: UIViewController  {
         }
         
         UIGraphicsBeginImageContext(self.mainImage.frame.size)
-        self.mainImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: kCGBlendModeNormal, alpha: 1.0)
-        self.tempDrawImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: kCGBlendModeNormal, alpha: 1.0)
+        self.mainImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: CGBlendMode.Normal, alpha: 1.0)
+        self.tempDrawImage.image?.drawInRect((CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)), blendMode: CGBlendMode.Normal, alpha: 1.0)
         
         self.mainImage.image = UIGraphicsGetImageFromCurrentImageContext()
         self.tempDrawImage.image = nil
@@ -100,13 +100,13 @@ class DrawingViewController: UIViewController  {
     
     func peerDidChangeStateWithNotification(notification: NSNotification)
     {
-        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as NSNumber)) as MCSessionState!
+        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as! NSNumber)) as MCSessionState!
         
         if (state != MCSessionState.Connecting)
         {
             if (state == MCSessionState.NotConnected)
             {
-                let viewController: UIViewController = storyboard?.instantiateViewControllerWithIdentifier("first") as UIViewController
+                let viewController: UIViewController = (storyboard?.instantiateViewControllerWithIdentifier("first") as UIViewController?)!
                 presentViewController(viewController, animated: true, completion: nil)
 
             }
@@ -116,17 +116,11 @@ class DrawingViewController: UIViewController  {
     
     func sendImage(image: UIImage)
     {
-        let msg = UIImagePNGRepresentation(image)
+        let msg = UIImagePNGRepresentation(image)!
         
-        var error : NSError?
-        
-        appDelegate.mcManager.session.sendData(msg, toPeers: appDelegate.mcManager.session.connectedPeers, withMode: MCSessionSendDataMode.Unreliable, error: &error)
-        
-        if error != nil {
-            print("Error sending data: \(error?.localizedDescription)")
-        }
-        
+        try! appDelegate.mcManager.session.sendData(msg, toPeers: appDelegate.mcManager.session.connectedPeers, withMode: MCSessionSendDataMode.Unreliable)
     }
+    
     
     func getWord ()
     {
@@ -140,10 +134,8 @@ class DrawingViewController: UIViewController  {
         
         self.view.addSubview(label)
         
-        var error : NSError?
-        
-        appDelegate.mcManager.session.sendData(msg.dataUsingEncoding(NSUTF8StringEncoding,
-            allowLossyConversion: false), toPeers: appDelegate.mcManager.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        try! appDelegate.mcManager.session.sendData(msg.dataUsingEncoding(NSUTF8StringEncoding,
+            allowLossyConversion: false)!, toPeers: appDelegate.mcManager.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
         
     }
 

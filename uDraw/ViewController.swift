@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 class ViewController: UIViewController, MCBrowserViewControllerDelegate {
 
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
     }
     func peerDidChangeStateWithNotification(notification: NSNotification)
     {
-        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as NSNumber)) as MCSessionState!
+        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as! NSNumber)) as MCSessionState!
         
         if (state != MCSessionState.Connecting)
         {
@@ -51,7 +51,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
     }
     
     func browserViewControllerDidFinish(
-        browserViewController: MCBrowserViewController!)  {
+        browserViewController: MCBrowserViewController)  {
             // Called when the browser view controller is dismissed (ie the Done
             // button was tapped)
             
@@ -61,7 +61,7 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
     }
     
     func browserViewControllerWasCancelled(
-        browserViewController: MCBrowserViewController!)  {
+        browserViewController: MCBrowserViewController)  {
             // Called when the browser view controller is cancelled
             
             self.dismissViewControllerAnimated(true, completion: nil)
