@@ -19,39 +19,39 @@ class MCManager: NSObject, MCSessionDelegate
 
     
     
-    func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState)
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState)
     {
 
-        let dict: NSDictionary = ["peerID": peerID,"state" : state.rawValue]
+        let dict = ["peerID": peerID,"state" : state.rawValue] as [String : Any]
         
-        NSNotificationCenter.defaultCenter().postNotificationName("MCDidChangeStateNotification", object: nil, userInfo: dict as [NSObject : AnyObject])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "MCDidChangeStateNotification"), object: nil, userInfo: dict)
         
     }
     
-    func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID)
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID)
     {
         
     }
     
     
-    func session(session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, withProgress progress: NSProgress)
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress)
     {
         
     }
     
     
-    func session(session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, atURL localURL: NSURL, withError error: NSError?)
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?)
     {
         
     }
     
     
-    func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID)
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID)
     {
         
     }
     
-    func setupPeerAndSessionWithDisplayName(displayName: NSString)
+    func setupPeerAndSessionWithDisplayName(_ displayName: String)
     {
         peerID = MCPeerID(displayName: displayName as String)
         

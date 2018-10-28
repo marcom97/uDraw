@@ -11,39 +11,39 @@ import MultipeerConnectivity
 
 class ViewController: UIViewController, MCBrowserViewControllerDelegate {
 
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate.mcManager.setupPeerAndSessionWithDisplayName(UIDevice.currentDevice().name)
+        appDelegate.mcManager.setupPeerAndSessionWithDisplayName(UIDevice.current.name)
         appDelegate.mcManager.advertiseSelf()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:"peerDidChangeStateWithNotification:", name: "MCDidChangeStateNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(ViewController.peerDidChangeStateWithNotification(_:)), name: NSNotification.Name(rawValue: "MCDidChangeStateNotification"), object: nil)
         // Do any additional setup after loading the view, typically from a nib.
     }
-    @IBAction func nearbyButton(sender: UIButton)
+    @IBAction func nearbyButton(_ sender: UIButton)
     {
         appDelegate.mcManager.setupMCBrowser()
         appDelegate.mcManager.browser?.delegate = self
-        presentViewController(appDelegate.mcManager.browser!, animated: true, completion: nil)
+        present(appDelegate.mcManager.browser!, animated: true, completion: nil)
     }
     
-    @IBAction func onlineButton(sender: UIButton) {
+    @IBAction func onlineButton(_ sender: UIButton) {
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func peerDidChangeStateWithNotification(notification: NSNotification)
+    func peerDidChangeStateWithNotification(_ notification: Notification)
     {
         let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as! NSNumber)) as MCSessionState!
         
-        if (state != MCSessionState.Connecting)
+        if (state != MCSessionState.connecting)
         {
-            if (state == MCSessionState.Connected)
+            if (state == MCSessionState.connected)
             {
-                performSegueWithIdentifier("startGuess", sender: self)
+                performSegue(withIdentifier: "startGuess", sender: self)
             }
             
         }
@@ -51,20 +51,20 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
     }
     
     func browserViewControllerDidFinish(
-        browserViewController: MCBrowserViewController)  {
+        _ browserViewController: MCBrowserViewController)  {
             // Called when the browser view controller is dismissed (ie the Done
             // button was tapped)
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             
-            performSegueWithIdentifier("NearbyDraw", sender: self)
+            performSegue(withIdentifier: "NearbyDraw", sender: self)
     }
     
     func browserViewControllerWasCancelled(
-        browserViewController: MCBrowserViewController)  {
+        _ browserViewController: MCBrowserViewController)  {
             // Called when the browser view controller is cancelled
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             appDelegate.mcManager.session.disconnect()
     }
 

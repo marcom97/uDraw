@@ -11,10 +11,10 @@ import MultipeerConnectivity
 
 class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDelegate {
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var textField : UITextField?
     var received = 0
-    var word : NSString?
+    var word : String?
     
     var label : UILabel?
 
@@ -22,20 +22,20 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
     
     override func viewDidLoad()
     {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:"peerDidChangeStateWithNotification:", name: "MCDidChangeStateNotification", object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(GuessViewController.peerDidChangeStateWithNotification(_:)), name: Notification.Name(rawValue: "MCDidChangeStateNotification"), object: nil)
         
         appDelegate.mcManager.session.delegate = self
         
         
-        let toolBar = UIToolbar(frame: CGRectMake(0, self.view.frame.height-44, self.view.frame.width, 44))
-        textField = UITextField(frame: CGRectMake(0, 0, self.view.frame.width-90, 30))
-        textField?.borderStyle = UITextBorderStyle.RoundedRect
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: self.view.frame.height-44, width: self.view.frame.width, height: 44))
+        textField = UITextField(frame: CGRect(x: 0, y: 0, width: self.view.frame.width-90, height: 30))
+        textField?.borderStyle = UITextBorderStyle.roundedRect
         let textFieldItem = UIBarButtonItem(customView: textField!)
-        let guessButton = UIBarButtonItem(title: "Guess", style: UIBarButtonItemStyle.Plain, target: self, action: "checkWords")
+        let guessButton = UIBarButtonItem(title: "Guess", style: UIBarButtonItemStyle.plain, target: self, action: #selector(GuessViewController.checkWords))
         textField?.delegate = self
         
-        label = UILabel(frame: CGRectMake(0, 21, self.view.frame.width, 21))
-        label?.textAlignment = NSTextAlignment.Center
+        label = UILabel(frame: CGRect(x: 0, y: 21, width: self.view.frame.width, height: 21))
+        label?.textAlignment = .center
         self.view.addSubview(label!)
 
 
@@ -45,43 +45,43 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         textField?.resignFirstResponder()
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
         return false
     }
     
-    func peerDidChangeStateWithNotification(notification: NSNotification)
+    func peerDidChangeStateWithNotification(_ notification: Notification)
     {
-        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as! NSNumber)) as MCSessionState!
+        let state: MCSessionState = MCSessionState(rawValue: notification.userInfo!["state"] as! Int)!
         
-        if (state != MCSessionState.Connecting)
+        if (state != MCSessionState.connecting)
         {
-            if (state == MCSessionState.NotConnected)
+            if (state == MCSessionState.notConnected)
             {
-                let viewController: UIViewController? = storyboard?.instantiateViewControllerWithIdentifier("first") as UIViewController?
-                presentViewController(viewController!, animated: true, completion: nil)
+                let viewController: UIViewController? = storyboard?.instantiateViewController(withIdentifier: "first") as UIViewController?
+                present(viewController!, animated: true, completion: nil)
             }
             
         }
     }
     
-    func session(session: MCSession, didReceiveData data: NSData,
+    func session(_ session: MCSession, didReceive data: Data,
         fromPeer peerID: MCPeerID)  {
             // Called when a peer sends an NSData to us
             if (received == 0)
             {
-                word = NSString(data: data, encoding: NSUTF8StringEncoding)
+                word = String(data: data, encoding: String.Encoding.utf8)
                 received = 1
             }
             else
             {
             // This needs to run on the main queue
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
                 {
                 
                 let msg = UIImage(data: data)
@@ -95,17 +95,17 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
     {
         if (textField?.text != "")
         {
-        let guess = textField?.text
-        if (guess?.caseInsensitiveCompare(word! as String) == NSComparisonResult.OrderedSame)
+            let guess = textField?.text
+            if (guess?.caseInsensitiveCompare(word! as String) == ComparisonResult.orderedSame)
             {
                 label?.text = "Correct"
             }
-            
+                
             else if(levenshtein(guess!, bStr: word! as String) < 2)
             {
                 label?.text = "Correct"
             }
-            
+                
             else if (levenshtein(guess!, bStr: word! as String) < 3)
             {
                 label?.text = "Close Guess"
@@ -113,7 +113,7 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         }
     }
     
-    func levenshtein(aStr: String, bStr: String) -> Int {
+    func levenshtein(_ aStr: String, bStr: String) -> Int {
         // create character arrays
         let a = Array(aStr.characters)
         let b = Array(bStr.characters)
@@ -121,7 +121,7 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         // initialize matrix of size |a|+1 * |b|+1 to zero
         var dist = [[Int]]()
         for _ in 0...a.count {
-            dist.append([Int](count: b.count + 1, repeatedValue: 0))
+            dist.append([Int](repeating: 0, count: b.count + 1))
         }
         
         // 'a' prefixes can be transformed into empty string by deleting every char
@@ -155,27 +155,27 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         return dist[a.count][b.count]
     }
     
-    func session(session: MCSession,
+    func session(_ session: MCSession,
         didStartReceivingResourceWithName resourceName: String,
-        fromPeer peerID: MCPeerID, withProgress progress: NSProgress)  {
+        fromPeer peerID: MCPeerID, with progress: Progress)  {
             
             // Called when a peer starts sending a file to us
     }
     
-    func session(session: MCSession,
+    func session(_ session: MCSession,
         didFinishReceivingResourceWithName resourceName: String,
         fromPeer peerID: MCPeerID,
-        atURL localURL: NSURL, withError error: NSError?)  {
+        at localURL: URL?, withError error: Error?)  {
             // Called when a file has finished transferring from another peer
     }
     
-    func session(session: MCSession, didReceiveStream stream: NSInputStream,
+    func session(_ session: MCSession, didReceive stream: InputStream,
         withName streamName: String, fromPeer peerID: MCPeerID)  {
             // Called when a peer establishes a stream with us
     }
     
-    func session(session: MCSession, peer peerID: MCPeerID,
-        didChangeState state: MCSessionState)  {
+    func session(_ session: MCSession, peer peerID: MCPeerID,
+        didChange state: MCSessionState)  {
             // Called when a connected peer changes state (for example, goes offline)
             
     }
