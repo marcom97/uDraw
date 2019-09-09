@@ -29,9 +29,9 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         
         let toolBar = UIToolbar(frame: CGRect(x: 0, y: self.view.frame.height-44, width: self.view.frame.width, height: 44))
         textField = UITextField(frame: CGRect(x: 0, y: 0, width: self.view.frame.width-90, height: 30))
-        textField?.borderStyle = UITextBorderStyle.roundedRect
+        textField?.borderStyle = UITextField.BorderStyle.roundedRect
         let textFieldItem = UIBarButtonItem(customView: textField!)
-        let guessButton = UIBarButtonItem(title: "Guess", style: UIBarButtonItemStyle.plain, target: self, action: #selector(GuessViewController.checkWords))
+        let guessButton = UIBarButtonItem(title: "Guess", style: UIBarButtonItem.Style.plain, target: self, action: #selector(GuessViewController.checkWords))
         textField?.delegate = self
         
         label = UILabel(frame: CGRect(x: 0, y: 21, width: self.view.frame.width, height: 21))
@@ -55,7 +55,7 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
         return false
     }
     
-    func peerDidChangeStateWithNotification(_ notification: Notification)
+    @objc func peerDidChangeStateWithNotification(_ notification: Notification)
     {
         let state: MCSessionState = MCSessionState(rawValue: notification.userInfo!["state"] as! Int)!
         
@@ -91,7 +91,7 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
             }
     }
     
-    func checkWords()
+    @objc func checkWords()
     {
         if (textField?.text != "")
         {
@@ -115,8 +115,8 @@ class GuessViewController: UIViewController, MCSessionDelegate, UITextFieldDeleg
     
     func levenshtein(_ aStr: String, bStr: String) -> Int {
         // create character arrays
-        let a = Array(aStr.characters)
-        let b = Array(bStr.characters)
+        let a = Array(aStr)
+        let b = Array(bStr)
         
         // initialize matrix of size |a|+1 * |b|+1 to zero
         var dist = [[Int]]()

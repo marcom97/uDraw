@@ -80,7 +80,7 @@ class DrawingViewController: UIViewController  {
         
     }
     
-    func peerDidChangeStateWithNotification(_ notification: Notification)
+    @objc func peerDidChangeStateWithNotification(_ notification: Notification)
     {
         let state = MCSessionState(rawValue: notification.userInfo!["state"] as! Int)
         
@@ -98,7 +98,7 @@ class DrawingViewController: UIViewController  {
     
     func sendImage(_ image: UIImage)
     {
-        let msg = UIImagePNGRepresentation(image)!
+        let msg = image.pngData()!
         
         try! appDelegate.mcManager.session.send(msg, toPeers: appDelegate.mcManager.session.connectedPeers, with: MCSessionSendDataMode.unreliable)
     }

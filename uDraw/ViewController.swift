@@ -35,9 +35,9 @@ class ViewController: UIViewController, MCBrowserViewControllerDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func peerDidChangeStateWithNotification(_ notification: Notification)
+    @objc func peerDidChangeStateWithNotification(_ notification: Notification)
     {
-        let state: MCSessionState = MCSessionState(rawValue: Int(notification.userInfo?["state"] as! NSNumber)) as MCSessionState!
+        let state: MCSessionState? = MCSessionState(rawValue: Int(truncating: notification.userInfo?["state"] as! NSNumber)) as MCSessionState?
         
         if (state != MCSessionState.connecting)
         {
